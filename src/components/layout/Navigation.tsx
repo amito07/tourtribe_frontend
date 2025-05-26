@@ -4,9 +4,11 @@ import CreatePostForm from "@/components/features/CreatePostForm";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
+import { ShareTripData } from "@/types";
 import {
   ArrowRightEndOnRectangleIcon,
   BellIcon,
+  Cog6ToothIcon,
   HomeIcon,
   MagnifyingGlassIcon,
   MapIcon,
@@ -29,7 +31,10 @@ export default function Navigation() {
   // Close user menu when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (userMenuRef.current && !userMenuRef.current.contains(event.target as Node)) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
         setShowUserMenu(false);
       }
     }
@@ -39,10 +44,9 @@ export default function Navigation() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  const handleCreatePost = async (postData: any) => {
+  const handleCreatePost = async (tripData: ShareTripData) => {
     // In a real app, this would save to your backend
-    console.log("Creating post:", postData);
+    console.log("Creating trip post:", tripData);
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
   };
@@ -54,11 +58,20 @@ export default function Navigation() {
     }
     setIsCreatePostOpen(true);
   };
-
   const handleLogout = () => {
     logout();
     setShowUserMenu(false);
     router.push("/login");
+  };
+
+  const handleProfileClick = () => {
+    setShowUserMenu(false);
+    router.push("/profile");
+  };
+
+  const handleSettingsClick = () => {
+    setShowUserMenu(false);
+    router.push("/settings");
   };
 
   return (
@@ -105,7 +118,8 @@ export default function Navigation() {
                 className="text-gray-700 hover:text-blue-600 transition-colors"
               >
                 <UsersIcon className="h-6 w-6" />
-              </Link>              <Button
+              </Link>{" "}
+              <Button
                 variant="primary"
                 size="sm"
                 className="hidden sm:flex items-center space-x-1"
@@ -114,7 +128,6 @@ export default function Navigation() {
                 <PlusIcon className="h-4 w-4" />
                 <span>Share Trip</span>
               </Button>
-
               {isAuthenticated ? (
                 <>
                   <button className="text-gray-700 hover:text-blue-600 transition-colors relative">
@@ -123,10 +136,10 @@ export default function Navigation() {
                       3
                     </span>
                   </button>
-                    <div className="relative" ref={userMenuRef}>
-                    <button 
+                  <div className="relative" ref={userMenuRef}>
+                    <button
                       onClick={() => setShowUserMenu(!showUserMenu)}
-                      className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors"
+                      className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 cursor-pointer transition-colors"
                     >
                       {user?.avatar ? (
                         <Image
@@ -139,14 +152,34 @@ export default function Navigation() {
                       ) : (
                         <UserCircleIcon className="h-8 w-8" />
                       )}
-                    </button>
-                    
+                    </button>{" "}
                     {showUserMenu && (
                       <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50 border border-gray-200">
                         <div className="px-4 py-2 border-b border-gray-100">
-                          <p className="text-sm font-medium text-gray-900">{user?.name}</p>
+                          <p className="text-sm font-medium text-gray-900">
+                            {user?.name}
+                          </p>
                           <p className="text-sm text-gray-500">{user?.email}</p>
                         </div>
+
+                        <button
+                          onClick={handleProfileClick}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
+                        >
+                          <UserCircleIcon className="h-4 w-4" />
+                          <span>Profile</span>
+                        </button>
+
+                        <button
+                          onClick={handleSettingsClick}
+                          className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
+                        >
+                          <Cog6ToothIcon className="h-4 w-4" />
+                          <span>Settings</span>
+                        </button>
+
+                        <div className="border-t border-gray-100 my-1"></div>
+
                         <button
                           onClick={handleLogout}
                           className="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-50 flex items-center space-x-2"

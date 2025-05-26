@@ -52,8 +52,13 @@ export const mockTrips: Trip[] = [
     description:
       "An incredible 7-day journey through Iceland, chasing the aurora borealis and exploring stunning landscapes.",
     destination: "Iceland",
+    startingPoint: "Reykjavik Airport",
     startDate: new Date("2024-02-10"),
     endDate: new Date("2024-02-17"),
+    transport: "air",
+    accommodation: "ac",
+    budgetDescription:
+      "Mid-range budget including accommodation, meals, and activities. Estimated $200-250 per day including hotel, car rental, and dining.",
     images: [
       "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1531168556467-80aace4d0144?w=800&h=600&fit=crop",
@@ -64,6 +69,7 @@ export const mockTrips: Trip[] = [
     author: mockUsers[0],
     likesCount: 156,
     commentsCount: 23,
+    interestedCount: 34,
     createdAt: new Date("2024-01-20"),
     updatedAt: new Date("2024-01-20"),
   },
@@ -73,8 +79,13 @@ export const mockTrips: Trip[] = [
     description:
       "A month-long backpacking adventure through Thailand, Vietnam, and Cambodia.",
     destination: "Southeast Asia",
+    startingPoint: "Bangkok International Airport",
     startDate: new Date("2024-03-01"),
     endDate: new Date("2024-03-30"),
+    transport: "air",
+    accommodation: "non-ac",
+    budgetDescription:
+      "Budget backpacking trip with hostels and street food. Estimated $30-50 per day including accommodation, local transport, and meals.",
     images: [
       "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?w=800&h=600&fit=crop",
       "https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=600&fit=crop",
@@ -84,6 +95,7 @@ export const mockTrips: Trip[] = [
     author: mockUsers[1],
     likesCount: 89,
     commentsCount: 12,
+    interestedCount: 67,
     createdAt: new Date("2024-02-15"),
     updatedAt: new Date("2024-02-15"),
   },

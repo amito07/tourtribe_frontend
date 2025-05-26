@@ -53,13 +53,14 @@ export default function Home() {
             {/* Welcome Section */}
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                {user ? `Welcome back, ${user.name}! 🌍` : "Welcome to TourTribe! 🌍"}
+                {user
+                  ? `Welcome back, ${user.name}! 🌍`
+                  : "Welcome to TourTribe! 🌍"}
               </h1>
               <p className="text-lg text-gray-600">
-                {user 
-                  ? "Ready for your next adventure? Check out what the community is sharing!" 
-                  : "Discover amazing destinations, connect with fellow travelers, and share your adventures."
-                }
+                {user
+                  ? "Ready for your next adventure? Check out what the community is sharing!"
+                  : "Discover amazing destinations, connect with fellow travelers, and share your adventures."}
               </p>
             </div>
 
@@ -147,19 +148,23 @@ export default function Home() {
               </CardHeader>
               <CardContent>
                 <div className="space-y-3">
-                  {["Iceland", "Bali", "Japan", "Norway", "New Zealand"].map(
-                    (destination, index) => (
-                      <div
-                        key={destination}
-                        className="flex items-center justify-between"
-                      >
-                        <span className="text-gray-900">{destination}</span>
-                        <span className="text-sm text-gray-500">
-                          #{index + 1}
-                        </span>
-                      </div>
-                    )
-                  )}
+                  {[
+                    "Sajek Valley",
+                    "Sundarban",
+                    "Cox's Bazar",
+                    "Bandarban",
+                    "Sreemangal",
+                  ].map((destination, index) => (
+                    <div
+                      key={destination}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="text-gray-900">{destination}</span>
+                      <span className="text-sm text-gray-500">
+                        #{index + 1}
+                      </span>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
@@ -200,7 +205,11 @@ export default function Home() {
                 <p className="text-sm text-gray-600 mb-4">
                   Share your next adventure with the TourTribe community.
                 </p>
-                <Button variant="primary" className="w-full" onClick={handlePlanTrip}>
+                <Button
+                  variant="primary"
+                  className="w-full"
+                  onClick={handlePlanTrip}
+                >
                   Plan Your Trip
                 </Button>
               </CardContent>

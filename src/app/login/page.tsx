@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/contexts/AuthContext";
 import { MapIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -12,52 +13,44 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+  const { authenticate } = useAuth();
   const router = useRouter();
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
-    // Simulate login API call
+    setError("");
+
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Store auth state (in real app, this would be JWT or session)
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("user", JSON.stringify({
-        id: "1",
-        name: "John Doe",
-        email: email,
-        avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent("John Doe")}`
-      }));
-      
-      // Redirect to home
-      router.push("/");
+      const result = await authenticate(email, password);
+
+      if (result.success) {
+        router.push("/");
+      } else {
+        setError(result.error || "Login failed");
+      }
     } catch (error) {
-      console.error("Login failed:", error);
+      setError("An unexpected error occurred");
     } finally {
       setIsLoading(false);
     }
   };
-
   const handleGoogleLogin = async () => {
     setIsLoading(true);
-    
-    // Simulate Google OAuth
+    setError("");
+
+    // For demo purposes, simulate Google OAuth with a predefined user
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("user", JSON.stringify({
-        id: "1",
-        name: "John Doe",
-        email: "john.doe@gmail.com",
-        avatar: `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent("John Doe")}`
-      }));
-      
-      router.push("/");
+      const result = await authenticate("john@example.com", "password123");
+
+      if (result.success) {
+        router.push("/");
+      } else {
+        setError("Google login failed");
+      }
     } catch (error) {
-      console.error("Google login failed:", error);
+      setError("Google login failed");
     } finally {
       setIsLoading(false);
     }
@@ -80,16 +73,24 @@ export default function LoginPage() {
             Sign in to your account to continue your travel journey
           </p>
         </div>
-
         {/* Login Form */}
         <Card className="shadow-xl">
           <CardHeader>
             <CardTitle className="text-center text-xl">Sign In</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
+            {" "}
+            {error && (
+              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md text-sm">
+                {error}
+              </div>
+            )}
             <form onSubmit={handleEmailLogin} className="space-y-4">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Email address
                 </label>
                 <Input
@@ -105,9 +106,12 @@ export default function LoginPage() {
                   disabled={isLoading}
                 />
               </div>
-              
+
               <div>
-                <label htmlFor="password" className="block text-sm font-medium text-gray-700">
+                <label
+                  htmlFor="password"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Password
                 </label>
                 <Input
@@ -132,13 +136,19 @@ export default function LoginPage() {
                     type="checkbox"
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
-                  <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
+                  <label
+                    htmlFor="remember-me"
+                    className="ml-2 block text-sm text-gray-900"
+                  >
                     Remember me
                   </label>
                 </div>
 
                 <div className="text-sm">
-                  <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
+                  <a
+                    href="#"
+                    className="font-medium text-blue-600 hover:text-blue-500"
+                  >
                     Forgot your password?
                   </a>
                 </div>
@@ -153,17 +163,17 @@ export default function LoginPage() {
                 {isLoading ? "Signing in..." : "Sign in"}
               </Button>
             </form>
-
             {/* Divider */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <div className="w-full border-t border-gray-300" />
               </div>
               <div className="relative flex justify-center text-sm">
-                <span className="px-2 bg-white text-gray-500">Or continue with</span>
+                <span className="px-2 bg-white text-gray-500">
+                  Or continue with
+                </span>
               </div>
             </div>
-
             {/* Google Login */}
             <Button
               onClick={handleGoogleLogin}
@@ -191,30 +201,44 @@ export default function LoginPage() {
               </svg>
               <span>Continue with Google</span>
             </Button>
-
             {/* Sign Up Link */}
             <div className="text-center">
               <p className="text-sm text-gray-600">
                 Don't have an account?{" "}
-                <Link href="/signup" className="font-medium text-blue-600 hover:text-blue-500">
+                <Link
+                  href="/signup"
+                  className="font-medium text-blue-600 hover:text-blue-500"
+                >
                   Sign up for free
                 </Link>
               </p>
             </div>
           </CardContent>
-        </Card>
-
+        </Card>{" "}
         {/* Demo Account Info */}
         <Card className="bg-blue-50 border-blue-200">
           <CardContent className="p-4">
             <div className="text-center">
-              <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Account</h3>
-              <p className="text-xs text-blue-600 mb-2">
-                Use any email and password to login (this is a demo)
+              <h3 className="text-sm font-medium text-blue-800 mb-2">
+                Demo Credentials
+              </h3>
+              <p className="text-xs text-blue-600 mb-3">
+                Try these demo accounts to test the authentication:
               </p>
-              <p className="text-xs text-blue-500">
-                Email: demo@tourtribe.com | Password: demo123
-              </p>
+              <div className="text-xs text-blue-700 space-y-1">
+                <p>
+                  <strong>Email:</strong> john@example.com |{" "}
+                  <strong>Password:</strong> password123
+                </p>
+                <p>
+                  <strong>Email:</strong> sarah@example.com |{" "}
+                  <strong>Password:</strong> travel2024
+                </p>
+                <p>
+                  <strong>Email:</strong> mike@example.com |{" "}
+                  <strong>Password:</strong> wanderlust
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>
