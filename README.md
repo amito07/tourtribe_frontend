@@ -1,36 +1,120 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TourTribe - Social Travel Community 🌍
 
-## Getting Started
+TourTribe is a modern social traveling app built with Next.js, TypeScript, and Tailwind CSS. Connect with fellow travelers, share your adventures, and discover amazing destinations around the world.
 
-First, run the development server:
+## ✨ Features
+
+- **Social Feed**: Share travel posts with photos and stories
+- **Trip Planning**: Create and share detailed trip itineraries
+- **User Profiles**: Showcase your travel experiences and connect with others
+- **Interactive Navigation**: Responsive design with modern UI components
+- **Real-time Updates**: Live feed of travel updates from the community
+- **Destination Discovery**: Explore trending destinations and get recommendations
+
+## 🚀 Tech Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Headless UI, Heroicons
+- **Icons**: Lucide React, Heroicons
+- **State Management**: React hooks and Context API
+- **Development**: Turbopack for fast development
+
+## 🛠️ Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone <repository-url>
+cd tourtribe
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+4. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📂 Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+src/
+├── app/                    # Next.js App Router pages
+├── components/
+│   ├── ui/                # Reusable UI components
+│   ├── features/          # Feature-specific components
+│   └── layout/            # Layout components
+├── data/                  # Mock data and API utilities
+├── hooks/                 # Custom React hooks
+├── lib/                   # Utility functions
+└── types/                 # TypeScript type definitions
+```
 
-## Learn More
+## 🎨 Component Overview
 
-To learn more about Next.js, take a look at the following resources:
+### UI Components
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Button**: Versatile button component with multiple variants
+- **Card**: Container components for content display
+- **Input/Textarea**: Form input components
+- **Modal**: Accessible modal dialog component
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Feature Components
 
-## Deploy on Vercel
+- **PostCard**: Social media style post display
+- **TripCard**: Trip information cards
+- **UserProfile**: User profile display (compact and full)
+- **CreatePostForm**: Form for creating new posts
+- **Navigation**: Main app navigation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔧 Available Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `npm run dev` - Start development server with Turbopack
+- `npm run build` - Build the application for production
+- `npm run start` - Start the production server
+- `npm run lint` - Run ESLint for code quality
+
+## 🎯 Roadmap
+
+- [ ] User authentication system
+- [ ] Backend API integration
+- [ ] Real-time messaging
+- [ ] Interactive maps
+- [ ] Photo upload functionality
+- [ ] Push notifications
+- [ ] Mobile app development
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Commit your changes: `git commit -am 'Add new feature'`
+4. Push to the branch: `git push origin feature/new-feature`
+5. Submit a pull request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgments
+
+- Next.js team for the amazing framework
+- Tailwind CSS for the utility-first styling
+- Heroicons for the beautiful icon set
+- Unsplash for placeholder images

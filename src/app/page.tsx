@@ -1,103 +1,213 @@
-import Image from "next/image";
+"use client";
+
+import PostCard from "@/components/features/PostCard";
+import TripCard from "@/components/features/TripCard";
+import UserProfile from "@/components/features/UserProfile";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useAuth } from "@/contexts/AuthContext";
+import { mockPosts, mockTrips, mockUsers } from "@/data/mockData";
+import { useRequireAuth } from "@/hooks/useAuth";
+import {
+  ArrowTrendingUpIcon,
+  MapIcon,
+  UserGroupIcon,
+} from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [activeTab, setActiveTab] = useState<"feed" | "trips" | "people">(
+    "feed"
+  );
+  const { user } = useAuth();
+  const { checkAuthAndRedirect } = useRequireAuth();
+  const router = useRouter();
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const handleLike = (postId: string) => {
+    if (!checkAuthAndRedirect()) return;
+    console.log("Liked post:", postId);
+  };
+
+  const handleComment = (postId: string) => {
+    if (!checkAuthAndRedirect()) return;
+    console.log("Comment on post:", postId);
+  };
+
+  const handleShare = (postId: string) => {
+    if (!checkAuthAndRedirect()) return;
+    console.log("Share post:", postId);
+  };
+
+  const handlePlanTrip = () => {
+    if (!checkAuthAndRedirect()) return;
+    console.log("Planning trip...");
+  };
+
+  return (
+    <div className="min-h-screen bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-3">
+            {/* Welcome Section */}
+            <div className="mb-8">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                {user ? `Welcome back, ${user.name}! 🌍` : "Welcome to TourTribe! 🌍"}
+              </h1>
+              <p className="text-lg text-gray-600">
+                {user 
+                  ? "Ready for your next adventure? Check out what the community is sharing!" 
+                  : "Discover amazing destinations, connect with fellow travelers, and share your adventures."
+                }
+              </p>
+            </div>
+
+            {/* Content Tabs */}
+            <div className="mb-6">
+              <div className="flex space-x-1 bg-gray-100 p-1 rounded-lg">
+                <button
+                  onClick={() => setActiveTab("feed")}
+                  className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "feed"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  <ArrowTrendingUpIcon className="h-4 w-4" />
+                  <span>Feed</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab("trips")}
+                  className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "trips"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  <MapIcon className="h-4 w-4" />
+                  <span>Trips</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab("people")}
+                  className={`flex-1 flex items-center justify-center space-x-2 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "people"
+                      ? "bg-white text-gray-900 shadow-sm"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
+                >
+                  <UserGroupIcon className="h-4 w-4" />
+                  <span>People</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Content */}
+            <div className="space-y-6">
+              {activeTab === "feed" && (
+                <>
+                  {mockPosts.map((post) => (
+                    <PostCard
+                      key={post.id}
+                      post={post}
+                      onLike={handleLike}
+                      onComment={handleComment}
+                      onShare={handleShare}
+                    />
+                  ))}
+                </>
+              )}
+
+              {activeTab === "trips" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {mockTrips.map((trip) => (
+                    <TripCard key={trip.id} trip={trip} />
+                  ))}
+                </div>
+              )}
+
+              {activeTab === "people" && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {mockUsers.map((user) => (
+                    <UserProfile key={user.id} user={user} compact />
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Sidebar */}
+          <div className="lg:col-span-1 space-y-6">
+            {/* Trending Destinations */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">
+                  🔥 Trending Destinations
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  {["Iceland", "Bali", "Japan", "Norway", "New Zealand"].map(
+                    (destination, index) => (
+                      <div
+                        key={destination}
+                        className="flex items-center justify-between"
+                      >
+                        <span className="text-gray-900">{destination}</span>
+                        <span className="text-sm text-gray-500">
+                          #{index + 1}
+                        </span>
+                      </div>
+                    )
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Quick Stats */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">📊 Community Stats</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Active Travelers</span>
+                    <span className="font-semibold">12,543</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Shared Trips</span>
+                    <span className="font-semibold">3,891</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Countries Visited</span>
+                    <span className="font-semibold">167</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">Photos Shared</span>
+                    <span className="font-semibold">89,234</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Call to Action */}
+            <Card>
+              <CardContent className="p-6 text-center">
+                <h3 className="font-semibold text-gray-900 mb-2">
+                  Ready to explore?
+                </h3>
+                <p className="text-sm text-gray-600 mb-4">
+                  Share your next adventure with the TourTribe community.
+                </p>
+                <Button variant="primary" className="w-full" onClick={handlePlanTrip}>
+                  Plan Your Trip
+                </Button>
+              </CardContent>
+            </Card>
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
 }
